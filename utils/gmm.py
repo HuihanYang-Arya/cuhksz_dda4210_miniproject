@@ -5,7 +5,7 @@ import seaborn as sns
 from sklearn.mixture import GaussianMixture
 from utils import data_clean_and_analysis
 
-def i_gmm(train_data, test_data, normal = True, save = "tmp.csv"):
+def i_gmm(train_data, test_data, normal = True, save = "output_record/tmp.csv"):
     """ 
     train data should not contain columns of lable 
     both of the input data should not contain columns of id
@@ -13,7 +13,6 @@ def i_gmm(train_data, test_data, normal = True, save = "tmp.csv"):
     if normal == True:
         train_data = data_clean_and_analysis.minmax(train_data)
         test_data = data_clean_and_analysis.minmax(test_data)
-    
     gmm = GaussianMixture(n_components=2)
     gmm.fit(train_data)
     predicted = gmm.predict(test_data)
