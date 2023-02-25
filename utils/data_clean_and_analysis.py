@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.model_selection import train_test_split
 
 def remove_id():
     """do not use this function """
@@ -50,7 +52,7 @@ def minmax(data:pd.DataFrame,label = False):
         scaler.fit(data.iloc[:,i].values.reshape(-1,1))
         data_minmax.iloc[:,i] = scaler.transform(data.iloc[:,i].values.reshape(-1,1)).reshape(1,-1)[0]
     if label == True:
-         data_minmax['labl'] = y.values
+         data_minmax['lable'] = y.values
     return data_minmax
 
 def result_comparition(data:np.ndarray):
@@ -62,3 +64,26 @@ def result_comparition(data:np.ndarray):
     score = np.sum(np.abs(a-data))
     score_rate = score/len(data)
     return score, score_rate
+
+def outlier_remove(data:pd.DataFrame,label = False,n_neighbors = 2):
+    if label == True:
+          y = data.iloc[:,-1]
+          data = data.iloc[:,:-1]
+    print(n_neighbors)
+    for i in range(len(data.columns)):
+         clf = LocalOutlierFactor(n_neighbors)
+         outlier = clf.fit_predict(data.iloc[:,i].values.reshape(-1,1))
+         print(np.sum(outlier == -1))
+    
+    
+def split_normal(train_data, test_data,split_size = 0.8,normal = True):
+    train_tr_data,val_data = train_test_split(train_data,test_size=(1-split_size),train_size=split_size)
+    train_y = train_tr_data.iloc[:,-1]
+    train_x = train_tr_data.iloc[:,:-1]
+    val_y = val_data.iloc[:,-1]
+    val_x = val_data.iloc[:,:-1]
+    if normal == True:
+        train_x = minmax(train_x)
+        val_x = minmax(val_x)
+        test_data = minmax(test_data)
+    return train_x,train_y,val_x,val_y,test_data
