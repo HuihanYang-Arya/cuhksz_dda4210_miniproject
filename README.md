@@ -45,3 +45,7 @@ kaggle web: https://www.kaggle.com/t/0b0a516a6d8520fdc5629f5e1dc2df65
 ## models need to train
 
 * a semi-supervised GMM
+
+* ensamble model - little svm - then boosting
+
+* you need to justify the label of your unsupervised GMM!!!!!! DONT FORGET THIS!!!!!!!!
