@@ -15,7 +15,8 @@ def remove_id():
 def get_data():
      train = pd.read_csv('data/train_no_id.csv').iloc[:,1:]
      test = pd.read_csv('data/test_no_id.csv').iloc[:,1:]
-     return train,test
+     augmented = pd.read_csv('data/augmented_test_no_id.csv')
+     return train,test,augmented
 
 def histogram(data:pd.DataFrame,save = False):
     """draw the histogram of input data

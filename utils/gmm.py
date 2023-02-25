@@ -17,16 +17,16 @@ def i_gmm(train_data, test_data, normal = True, save = "output_record/tmp.csv"):
     gmm.fit(train_data)
     predicted = gmm.predict(test_data)
     score, score_rate = data_clean_and_analysis.result_comparition(predicted)
-    if score_rate < 0.1:
-        predicted_df = pd.DataFrame(pd.read_csv('data/test.csv').iloc[:,-1])
-        predicted_df['prediction'] = predicted
-        predicted_df.to_csv(save, index=False)
+    predicted_df = pd.DataFrame(pd.read_csv('data/test.csv').iloc[:,-1])
+    predicted_df['prediction'] = predicted
+    predicted_df.to_csv(save, index=False)
     return score,score_rate
 
 def gmm_plot(predicted_data:pd.DataFrame,test_data:pd.DataFrame):
     colors = ["navy", "turquoise"]
     tmp = predicted_data.iloc[:,1]
-    test_data['useless_feature'] = np.zeros(len(tmp))
+    if len(test_data.columns) == 2: 
+        test_data['useless_feature'] = np.zeros(len(tmp))
     test_data['predicted'] = tmp
     test_matrix = test_data.values
     for i, color in enumerate(colors):
