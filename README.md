@@ -31,3 +31,15 @@ kaggle web: https://www.kaggle.com/t/0b0a516a6d8520fdc5629f5e1dc2df65
 * one is the paper from Tongxin Li
 
 * one is the paper proposed semi-supervised GMM
+
+## things ready to hand in
+
+* an unsupervised GMM with only feature 4 on training data
+
+* an unsuperviesd GMM with full feature on training data
+
+* an ensamble version of SVM by deleting the operation of outlier and using min-max normalization method 
+
+## models need to train
+
+* a semi-supervised GMM
