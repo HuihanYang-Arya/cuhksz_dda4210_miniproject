@@ -23,3 +23,11 @@ kaggle web: https://www.kaggle.com/t/0b0a516a6d8520fdc5629f5e1dc2df65
 * submission.csv could be used as sample, which has an accuracy of 98.75\%.
 
 * others are just test or trash anyway.
+
+### ref
+
+* contains one project description and two papers
+
+* one is the paper from Tongxin Li
+
+* one is the paper proposed semi-supervised GMM
