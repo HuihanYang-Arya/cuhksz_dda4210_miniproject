@@ -1,21 +1,10 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.svm import SVC
 from utils import data_clean_and_analysis
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import AdaBoostRegressor, AdaBoostClassifier
+from sklearn.ensemble import  AdaBoostClassifier
 
-""" def small_svm(train_x,train_y,val_x,val_y,test_data, tol=1e-3, C=1.0, max_iter=1000, kernel='linear', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=False, random_state=None):
-    clf = svm.SVC(kernel=kernel, tol=tol, C=C, max_iter=max_iter, degree=degree, gamma=gamma, coef0=coef0, shrinking=shrinking, probability=probability, random_state=random_state)
-    clf.fit(train_x,train_y.values)
-    score_val = clf.score(val_x,val_y)
-    predict = clf.predict(test_data)
-    return score_val,predict
- """
 
-def svm_ensamble(train_data, test_data, save = "output_record/tmp.csv",n_estimator = 8,learning_rate = 0.2,train = True
+def svm_ensamble(train_data, test_data, save = "output_record/tmp.csv",n_estimator = 6,learning_rate = 0.2,train = True
                  ):
     if train == True:
     #random split

@@ -17,7 +17,7 @@ def remove_id():
 def get_data():
      train = pd.read_csv('data/train_no_id.csv').iloc[:,1:]
      test = pd.read_csv('data/test_no_id.csv').iloc[:,1:]
-     augmented = pd.read_csv('data/augmented_test_no_id.csv')
+     augmented = pd.read_csv('data/augmented_test_no_id.csv').iloc[:,1:]
      return train,test,augmented
 
 def histogram(data:pd.DataFrame,save = False):
@@ -87,3 +87,19 @@ def split_normal(train_data, test_data,split_size = 0.8,normal = True):
         val_x = minmax(val_x)
         test_data = minmax(test_data)
     return train_x,train_y,val_x,val_y,test_data
+
+def test1(function):
+    train,test,argu = get_data()
+    result = []
+    for i in range(30):
+        result.append(function(train,test))
+    return np.mean(result),np.var(result)
+
+def test_aug(function,name = 'output_record/tmp.csv'):
+    train,test,argu = get_data()
+    function(train,argu,train = False,save = name)
+    return count(name = name)
+
+def count(target = 1,name = 'output_record/tmp.csv'):
+    df = pd.read_csv(name).iloc[:,1].values
+    return np.count_nonzero(df == target)
