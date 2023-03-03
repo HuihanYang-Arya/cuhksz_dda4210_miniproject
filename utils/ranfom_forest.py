@@ -4,7 +4,7 @@ from utils import data_clean_and_analysis
 
 def i_rf(train_data, test_data, save = "output_record/tmp.csv",train = True):
     """ 
-    both of the input data should not contain columns of id
+    implementation of simple random forest algorithm
     """
 
     if train == True:
@@ -36,7 +36,9 @@ def small_rf(train_x,train_y,val_x,val_y,test_data, column_list,n_estimator=100)
 
 
 def rf_ensamble(train_data, test_data, save = "output_record/tmp.csv",train = True):
-    #random split
+    """ 
+    implementation of ensamble random forest algorithm
+    """
     if train == True:
         train_x,train_y,val_x,val_y,test_data = data_clean_and_analysis.split_normal(train_data,test_data)
     else:

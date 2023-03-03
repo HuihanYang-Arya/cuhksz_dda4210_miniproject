@@ -1,9 +1,13 @@
 import pandas as pd
 from sklearn.svm import SVC
 from utils import data_clean_and_analysis
+from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier,AdaBoostClassifier
 
 def i_vb(train_data, test_data, save = "output_record/tmp.csv",train = True):
+    """
+    implementation of vote boosting algorithm
+    """
     if train == True:
         train_x,train_y,val_x,val_y,test_data = data_clean_and_analysis.split_normal(train_data,test_data)
     else:
@@ -11,16 +15,16 @@ def i_vb(train_data, test_data, save = "output_record/tmp.csv",train = True):
         train_y = train_data.iloc[:,-1]
         train_x = data_clean_and_analysis.minmax(train_x)
         test_data = data_clean_and_analysis.minmax(test_data)
-    clf9 = SVC(probability = True,kernel='rbf',C = 8)
-    clf2 = RandomForestClassifier()
-    clf3 = RandomForestClassifier(n_estimators=100)
-    clf4 = RandomForestClassifier(n_estimators=100)
     clf1 = RandomForestClassifier(max_features=2)
-    clf12 = SVC(probability = True,kernel='rbf',C = 8)
+    clf2 = GaussianNB()
+    clf3 = RandomForestClassifier()
+    clf4 = RandomForestClassifier()
     clf5 = AdaBoostClassifier()
     clf6 = RandomForestClassifier(max_features=3)
-    clf11 = RandomForestClassifier()
-    eclf1 = VotingClassifier(estimators=[('svr',clf1), ('rf', clf2), ('svcp', clf3),('svcr',clf4),('gn',clf5),('svcl',clf6),('1',clf9),('13',clf11),('14',clf12)], voting='hard')
+    clf7 = SVC(probability = True,kernel='rbf',C = 8)
+    clf8 = SVC(probability = True,kernel='rbf',C = 8)
+    clf9 = RandomForestClassifier()
+    eclf1 = VotingClassifier(estimators=[('svr',clf1), ('rf', clf2), ('svcp', clf3),('svcr',clf4),('gn',clf5),('svcl',clf6),('1',clf7),('13',clf8),('14',clf9)], voting='hard')
     if train == True:
         eclf1 = eclf1.fit(train_x, train_y)
         return eclf1.score(val_x,val_y)

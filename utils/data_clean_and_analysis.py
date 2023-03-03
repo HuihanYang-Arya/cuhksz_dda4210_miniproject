@@ -22,9 +22,8 @@ def get_data():
 
 def histogram(data:pd.DataFrame,save = False):
     """draw the histogram of input data
-        histogram is drawn based on columns 
+        histogram is drawn based on columns and features
     """
-
     for i in range(len(data.columns)):
         plt.hist(data.iloc[:,i],bins = 100)
         plt.title("histogram of "+data.columns[i])
@@ -33,15 +32,16 @@ def histogram(data:pd.DataFrame,save = False):
         plt.show()
 
 def heatmap(data:pd.DataFrame,save = False):
-    """ draw the heatmap of given df"""
-    sns.heatmap(data.corr())
+    """ draw the heatmap of given data"""
+    sns.heatmap(data.corr(),cmap='summer')
     if save == True:
             plt.savefig('figure/heatmap')
     plt.show()
 
 def minmax(data:pd.DataFrame,label = False):
-    """ do the minmax normalization based on whether data has y
-        by default we assume that the label is in the last line
+    """ do the minmax normalization 
+        data:       Data need to be normalized
+        label:      Whether data is labeled. If it is labeled, we assume label column is in the last column.
     """
     if label == True:
           y = data.iloc[:,-1]
@@ -59,6 +59,7 @@ def result_comparition(data:np.ndarray):
     """
     here we input the predicted results and compard with the file submission.csv
     score is measured by the number of different predictions
+    -not important for the augmented data
     """
     a = pd.read_csv("output_record/submission.csv")['prediction'].values
     score = np.sum(np.abs(a-data))
@@ -66,6 +67,9 @@ def result_comparition(data:np.ndarray):
     return score, score_rate
 
 def outlier_remove(data:pd.DataFrame,label = False,n_neighbors = 2):
+    """
+    function used to remove the outlier
+    """
     if label == True:
           y = data.iloc[:,-1]
           data = data.iloc[:,:-1]
@@ -76,7 +80,13 @@ def outlier_remove(data:pd.DataFrame,label = False,n_neighbors = 2):
          print(np.sum(outlier == -1))
     
     
-def split_normal(train_data, test_data,split_size = 0.8,normal = True):
+def split_normal(train_data:pd.DataFrame,test_data:pd.DataFrame,split_size = 0.8,normal = True):
+    """
+    Function used to split the train data into training set and validation set and perform min-max normalization.
+    train_data:         training dataset with label
+    test_data:          test dataset with label
+    split_size(float):  the partition of training set(split_size) and validation set(1-split_size).
+    """
     train_tr_data,val_data = train_test_split(train_data,test_size=(1-split_size),train_size=split_size)
     train_y = train_tr_data.iloc[:,-1]
     train_x = train_tr_data.iloc[:,:-1]
@@ -89,13 +99,19 @@ def split_normal(train_data, test_data,split_size = 0.8,normal = True):
     return train_x,train_y,val_x,val_y,test_data
 
 def test1(function):
+    """
+    function used to do the training and validation test
+    """
     train,test,argu = get_data()
     result = []
-    for i in range(30):
-        result.append(function(train,test))
+    for i in range(40):
+        result.append(function(train,test)*100)
     return np.mean(result),np.var(result)
 
 def test_aug(function,name = 'output_record/tmp.csv'):
+    """
+    function used to get the statistic of the performance on augmented dataset.
+    """
     train,test,argu = get_data()
     function(train,argu,train = False,save = name)
     return count(name = name)
