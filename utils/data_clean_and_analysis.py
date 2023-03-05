@@ -6,6 +6,7 @@ import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.model_selection import train_test_split
+from pandas.plotting import scatter_matrix
 
 def remove_id():
     """do not use this function """
@@ -30,6 +31,12 @@ def histogram(data:pd.DataFrame,save = False):
         if save == True:
             plt.savefig('figure/histogram_'+str(data.columns[i]))
         plt.show()
+
+def scatter1(data):
+    """draw the histogram of input data between features
+    """
+    scatter_matrix(data[['feature_1','feature_2','feature_3','feature_4']],
+               marker='o')
 
 def heatmap(data:pd.DataFrame,save = False):
     """ draw the heatmap of given data"""

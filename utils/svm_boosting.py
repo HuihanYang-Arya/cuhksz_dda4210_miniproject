@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.svm import SVC
 from utils import data_clean_and_analysis
-from sklearn.ensemble import  AdaBoostClassifier
+from sklearn.ensemble import  AdaBoostClassifier,BaggingClassifier
 
 def i_svm(train_data, test_data, save = "output_record/tmp.csv",train = True):
     if train == True:
@@ -26,8 +26,7 @@ def i_svm(train_data, test_data, save = "output_record/tmp.csv",train = True):
         return score,score_rate
 
 
-
-def svm_ensamble(train_data, test_data, save = "output_record/tmp.csv",n_estimator = 6,learning_rate = 0.2,train = True):
+def svm_ensamble(train_data, test_data, save = "output_record/tmp.csv",n_estimator = 10,learning_rate = 0.2,train = True):
     """ 
     implementation of ensamble SVM algorithm
     """
@@ -39,8 +38,9 @@ def svm_ensamble(train_data, test_data, save = "output_record/tmp.csv",n_estimat
         train_y = train_data.iloc[:,-1]
         train_x = data_clean_and_analysis.minmax(train_x)
         test_data = data_clean_and_analysis.minmax(test_data)
-    baseSVM = SVC(probability=True, kernel='rbf', class_weight='balanced')
-    model = AdaBoostClassifier(n_estimators=n_estimator, random_state=42, learning_rate=learning_rate, base_estimator=baseSVM)
+    baseSVM = SVC(probability=True, kernel='rbf', class_weight='balanced',C = 8)
+    #model = AdaBoostClassifier(n_estimators=n_estimator, random_state=42, learning_rate=learning_rate, base_estimator=baseSVM)
+    model = BaggingClassifier(n_estimators=n_estimator, random_state=42, base_estimator=baseSVM)
     if train == True:
         model.fit(train_x, train_y)
         return model.score(val_x,val_y)

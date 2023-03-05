@@ -21,10 +21,9 @@ def i_vb(train_data, test_data, save = "output_record/tmp.csv",train = True):
     clf4 = RandomForestClassifier()
     clf5 = AdaBoostClassifier()
     clf6 = RandomForestClassifier(max_features=3)
-    clf7 = SVC(probability = True,kernel='rbf',C = 8)
+    clf7 = SVC(probability = True,kernel='poly',C = 8)
     clf8 = SVC(probability = True,kernel='rbf',C = 8)
-    clf9 = RandomForestClassifier()
-    eclf1 = VotingClassifier(estimators=[('svr',clf1), ('rf', clf2), ('svcp', clf3),('svcr',clf4),('gn',clf5),('svcl',clf6),('1',clf7),('13',clf8),('14',clf9)], voting='hard')
+    eclf1 = VotingClassifier(estimators=[('svr',clf1), ('rf', clf2), ('svcp', clf3),('svcr',clf4),('gn',clf5),('svcl',clf6),('1',clf7),('13',clf8)], voting='hard')
     if train == True:
         eclf1 = eclf1.fit(train_x, train_y)
         return eclf1.score(val_x,val_y)
